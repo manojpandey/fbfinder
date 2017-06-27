@@ -26,7 +26,7 @@ class FbFinder:
                 # Check if we have the id in the string itself
                 # so that we don't have to parse the page
                 # Ex: https://www.facebook.com/profile.php?id=24353623
-
+                print("Inside")
                 if 'php' in url:
                     return url.split('/')[-1].split('?')[-1].split(
                         '=')[1].split('&')[0]
@@ -48,8 +48,12 @@ class FbFinder:
                             return user_id
                         except TypeError:
                             return "Unable to figure out, contact the developer"
+            elif response.cookies.list_domains()[0] != ".facebook.com":
+                return "Not a facebook URL"
             elif response.status_code == 404:
                 return "Wrong URL. Check again"
+        except IndexError:
+            return "Not a valid page"
         except requests.exceptions.RequestException:
             return "Invalid URL"
 
